@@ -70,7 +70,7 @@ export async function getStream({
             `ZeeFliz: WAF detected (403) for ${link}, using solver...`,
           );
           const baseUrl = link.split("/").slice(0, 3).join("/");
-          const cleanHeaders = { ...headers, Referer: baseUrl };
+          const cleanHeaders: Record<string, string> = { ...headers, Referer: baseUrl };
           delete cleanHeaders["User-Agent"];
           delete cleanHeaders["sec-ch-ua"];
           delete cleanHeaders["sec-ch-ua-mobile"];
