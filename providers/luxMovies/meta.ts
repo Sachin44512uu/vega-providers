@@ -233,7 +233,7 @@ export const getMeta = async ({
           // Fallback to other episode anchors ONLY if they are not Batch/Zip
           btn = nextP
             .find("a")
-            .filter((_, a) => {
+            .filter((_index: number, a: any) => {
               const txt = $(a).text().toLowerCase();
               const href = ($(a).attr("href") || "").toLowerCase();
               return (
