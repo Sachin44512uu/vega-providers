@@ -41,6 +41,7 @@ export const getSearchPosts = async function ({
   providerContext: ProviderContext;
 }): Promise<Post[]> {
   const { axios, cheerio, Aes } = providerContext;
+  if (!Aes?.sha1) throw new Error("SHA-1 helper is unavailable in provider context");
   const getSHA256ofJSON = async function (input: any) {
     return await Aes.sha1(input);
   };
