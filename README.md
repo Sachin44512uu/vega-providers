@@ -19,7 +19,7 @@ npm ci
 | `npm run build` | Bundle provider modules into `dist/` |
 | `npm run build:dev` | Build without minification |
 | `npm run typecheck` | Run TypeScript without emitting files |
-| `npm test` | Run the provider integration test suite |
+| `npm run test:unit` | Run offline regression and repository contract tests |\n| `npm test` | Run the provider integration test suite (may contact external sites) |
 | `npm run test:provider -- <provider>` | Run the single-provider test runner |
 | `npm run dev` | Start the local development server |
 | `npm run watch` | Watch files using nodemon |
@@ -51,7 +51,7 @@ See [AGENTS.md](AGENTS.md) for detailed provider contracts and implementation co
 Only integrate sources and media that you are authorized to access and distribute. Prefer official, licensed destinations and respect source-site terms, rate limits, and takedown requests.
 
 ## Continuous integration
-GitHub Actions runs the TypeScript check, build, and provider test suite for pushes and pull requests to `main`. Scheduled and manual runs are also configured.
+GitHub Actions runs the TypeScript check, build, and offline regression tests for pushes and pull requests to `main`. A separate tagged-release workflow builds and attaches a ZIP containing `dist/`, `manifest.json`, `urls.json`, and this README. Scheduled and manual CI runs are also configured.
 
 ## Repository structure
 ```text
