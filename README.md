@@ -3,7 +3,7 @@
 Community-maintained provider extensions for the Vega app. This repository contains provider modules, a manifest, build tooling, and automated tests.
 
 ## Requirements
-- Node.js 20 or later
+- Node.js 24.15 or later
 - npm
 
 ## Setup
