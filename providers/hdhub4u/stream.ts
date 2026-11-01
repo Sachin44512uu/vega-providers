@@ -1,4 +1,4 @@
-import { ProviderContext } from "../types";
+import { ProviderContext, Stream } from "../types";
 import { hubcloudExtractor } from "../extractors/hubcloud";
 import { throwProviderError } from "../providerErrors";
 
@@ -51,7 +51,7 @@ export async function getStream({
   signal: AbortSignal;
   providerContext: ProviderContext;
   isDownload?: boolean;
-}) {
+}): Promise<Stream[]> {
   const { axios, cheerio, commonHeaders: headers } = providerContext;
   let hubdriveLink = "";
 
@@ -159,10 +159,10 @@ export async function getStream({
     // HubDrive and HubCloud buttons in one row are mirrors of the same file.
     const unique = selected.filter((item, i, all) => all.findIndex(d => d.quality === item.quality) === i);
     if (unique.length) {
-      const streams = [];
+      const streams: Stream[] = [];
       for (const item of unique) {
         try {
-          const resolved = await getStream({link: item.link, type, signal, providerContext, isDownload});
+          const resolved: Stream[] = await getStream({link: item.link, type, signal, providerContext, isDownload});
           streams.push(...resolved.map(stream => ({...stream, quality: stream.quality || String(qualityValue(item.quality)), server: item.quality + " · " + stream.server})));
         } catch (error) {
           if (signal?.aborted) throw error;
