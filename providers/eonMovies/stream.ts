@@ -551,7 +551,7 @@ async function extractDownloadStreams(
   if (isHubcloudUrl(link)) {
     return hubcloudExtractor(
       link,
-      signal,
+      signal ?? new AbortController().signal,
       providerContext.axios,
       providerContext.cheerio,
       { ...headers },
