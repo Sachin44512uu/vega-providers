@@ -2,6 +2,8 @@ import { EpisodeLink, ProviderContext, SkipInterval } from "./types";
 import { getEpisodeNumber } from "./getCinemetaMeta";
 import { fetchTheIntroDbSkipTimings } from "./theintrodb";
 
+declare const providerGlobal: typeof globalThis | undefined;
+
 function getAniSkipCache(): Record<string, any> {
   const state: any =
     typeof providerGlobal !== "undefined" && providerGlobal
