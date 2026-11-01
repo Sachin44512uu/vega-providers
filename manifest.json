@@ -108,7 +108,7 @@
     "version": "1.10",
     "icon": "",
     "type": "global",
-    "disabled": true
+    "disabled": false
   },
   {
     "display_name": "MovieBox App",
