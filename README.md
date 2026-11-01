@@ -46,7 +46,7 @@ See [AGENTS.md](AGENTS.md) for detailed provider contracts and implementation co
 1. Create or update one provider directory under `providers/`.
 2. Follow the signatures and return shapes in `AGENTS.md`.
 3. Update the matching `manifest.json` entry.
-4. Run `npm ci`, `npm run typecheck`, `npm run build`, and `npm test`.
+4. Run `npm ci`, `npm run typecheck`, `npm run build`, and `npm run test:unit`. Run `npm test` separately when you intentionally want live provider integration checks.
 5. Review generated files in `dist/` before committing. Never commit secrets, session cookies, or personal account data.
 
 Only integrate sources and media that you are authorized to access and distribute. Prefer official, licensed destinations and respect source-site terms, rate limits, and takedown requests.
