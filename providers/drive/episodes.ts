@@ -41,6 +41,7 @@ export const getEpisodes = async function ({
       let currentTitle = "";
 
       $("body *").each((i, element) => {
+        if (!("tagName" in element)) return;
         const tagName = element.tagName.toLowerCase();
         if (["h3", "h4", "h5", "h6", "strong"].includes(tagName)) {
           const text = $(element).text().trim();
