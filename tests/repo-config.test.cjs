@@ -21,7 +21,8 @@ test("manifest values are unique and map to provider directories", () => {
     assert.equal(typeof entry.value, "string");
     assert.ok(entry.value.trim(), "provider value must not be empty");
     assert.equal(path.basename(entry.value), entry.value, "provider value must be a folder name");
-    assert.match(String(entry.version), /^\\d+(?:\\.\\d+)*$/, "provider version must be numeric");
+    const versionParts = String(entry.version).split(".");
+    assert.ok(versionParts.length > 0 && versionParts.every((part) => /^[0-9]+$/.test(part)), "provider version must be numeric");
     assert.ok(
       fs.statSync(path.join(providersRoot, entry.value), { throwIfNoEntry: false })?.isDirectory(),
       `manifest entry has no provider directory: ${entry.value}`,
