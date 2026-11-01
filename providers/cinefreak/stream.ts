@@ -206,7 +206,7 @@ export async function getStream({
             const dPageRes = await axios.get(href, { headers: commonHeaders, signal });
             dPageHtml = dPageRes.data;
           } catch (e: any) {
-            if (e.response?.status === 403 && providerContext.openWebView) {
+            if (e.response?.status === 403) {
               const retryRes = await axios.get(href, { headers: commonHeaders, signal });
               dPageHtml = retryRes.data;
             }
