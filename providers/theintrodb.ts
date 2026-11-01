@@ -1,6 +1,8 @@
 import { EpisodeLink, ProviderContext, SkipInterval } from "./types";
 import { getEpisodeNumber } from "./getCinemetaMeta";
 
+declare const providerGlobal: typeof globalThis | undefined;
+
 export interface TheIntroDbParams {
   imdbId?: string;
   tmdbId?: string | number;
