@@ -1,0 +1,52 @@
+name: Build and Publish Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npm run typecheck
+
+      - name: Build providers
+        run: npm run build
+
+      - name: Run offline regression tests
+        run: npm run test:unit
+
+      - name: Package compiled providers
+        shell: bash
+        run: |
+          archive="vega-providers-${GITHUB_REF_NAME}.zip"
+          zip -r "$archive" dist manifest.json urls.json README.md
+          echo "ARCHIVE=$archive" >> "$GITHUB_ENV"
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: ${{ env.ARCHIVE }}
