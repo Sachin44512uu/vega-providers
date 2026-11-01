@@ -8,6 +8,7 @@ export async function gdflixExtractor(
   headers: Record<string, string>,
   providerContext?: any,
 ) {
+  const streamLinks: any[] = [];
   try {
     let wafCookies: string | undefined;
     try {
@@ -33,7 +34,6 @@ export async function gdflixExtractor(
       headers["Cookie"] = wafCookies;
     }
 
-    const streamLinks: any[] = [];
     const res = await axios(`${link}`, { headers, signal });
     console.log("gdflixExtractor", link);
     const data = res.data;
