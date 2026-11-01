@@ -346,7 +346,7 @@ export async function extractCinejoyStreams({
               ...(item.captions || []).map((c: any) => ({
                 title: c.id || c.language || "Subtitle",
                 uri: c.url,
-                type: (c.url && c.url.endsWith(".vtt") ? "text/vtt" : "application/x-subrip") as const,
+                type: (c.url && c.url.endsWith(".vtt") ? "text/vtt" : "application/x-subrip") as TextTracks[number]["type"],
                 language: (c.language || c.id || "en").slice(0, 2).toLowerCase(),
               })),
               ...externalSubtitles,
