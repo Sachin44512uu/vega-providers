@@ -4,7 +4,7 @@ import { zcloudExtractor } from "../extractors/zcloud";
 import { gdflixExtractor } from "../extractors/gdflix";
 import { throwProviderError } from "../providerErrors";
 
-const headers = {
+const headers: Record<string, string> = {
   Accept:
     "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
   "Cache-Control": "no-store",
