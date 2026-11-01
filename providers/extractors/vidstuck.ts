@@ -790,7 +790,7 @@ export async function extractVidstuckStreams({
         .map((c: any) => ({
           title: c.display || "Subtitle",
           language: (c.display || "en").slice(0, 2).toLowerCase(),
-          type: (c.file.includes(".vtt") ? "text/vtt" : "application/x-subrip") as const,
+          type: (c.file.includes(".vtt") ? "text/vtt" : "application/x-subrip") as "text/vtt" | "application/x-subrip",
           uri: c.file,
         }));
     } catch {
