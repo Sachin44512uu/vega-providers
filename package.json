@@ -18,7 +18,8 @@
     "watch:dev": "nodemon --watch providers --ext ts --exec \"npm run build\" & npm run dev",
     "dev:auto": "concurrently \"nodemon --watch providers --ext ts --exec \\\"npm run build:dev\\\"\" \"npm run dev\"",
     "auto": "node auto-dev.js",
-    "start": "npm run build && npm run dev"
+    "start": "npm run build && npm run dev",
+    "test:unit": "node --test tests/*.test.cjs tests/*.test.js"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.35",
