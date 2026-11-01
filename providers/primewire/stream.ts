@@ -39,7 +39,7 @@ async function getEmbeddedLinkWithWaf(
 ): Promise<string> {
   const { axios, commonHeaders, openWebView } = providerContext;
   const url = `${new URL(pageUrl).origin}/links/go/${source.id}?embed=true`;
-  const headers = { ...commonHeaders, Referer: pageUrl };
+  const headers: Record<string, string> = { ...commonHeaders, Referer: pageUrl };
 
   try {
     return getEmbeddedLink((await axios.get(url, { headers })).data);
