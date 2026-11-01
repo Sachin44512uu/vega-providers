@@ -150,8 +150,8 @@ export async function getStream({
       });
       pageHtml = res.data;
     } catch (e: any) {
-      if (e.response?.status === 403 && providerContext.openWebView) {
-        const cleanHeaders = { ...commonHeaders, Referer: baseUrl };
+      if (e.response?.status === 403) {
+        const cleanHeaders: Record<string, string> = { ...commonHeaders, Referer: baseUrl };
         delete cleanHeaders["User-Agent"];
         delete cleanHeaders["sec-ch-ua"];
         delete cleanHeaders["sec-ch-ua-mobile"];
