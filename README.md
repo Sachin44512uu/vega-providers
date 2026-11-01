@@ -19,7 +19,8 @@ npm ci
 | `npm run build` | Bundle provider modules into `dist/` |
 | `npm run build:dev` | Build without minification |
 | `npm run typecheck` | Run TypeScript without emitting files |
-| `npm run test:unit` | Run offline regression and repository contract tests |\n| `npm test` | Run the provider integration test suite (may contact external sites) |
+| `npm run test:unit` | Run offline regression and repository contract tests |
+| `npm test` | Run the provider integration test suite (may contact external sites) |
 | `npm run test:provider -- <provider>` | Run the single-provider test runner |
 | `npm run dev` | Start the local development server |
 | `npm run watch` | Watch files using nodemon |
