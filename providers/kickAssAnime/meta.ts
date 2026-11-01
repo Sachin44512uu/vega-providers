@@ -1,4 +1,4 @@
-import { Info, LinkList, ProviderContext } from "../types";
+import { Info, Link, ProviderContext } from "../types";
 
 const BASE_URL = "https://kaa.lt";
 
@@ -66,7 +66,7 @@ export const getMeta = async function ({
     // fallback to ja-JP
   }
 
-  const linkList: LinkList[] = [];
+  const linkList: Link[] = [];
 
   for (const lang of languages) {
     try {
