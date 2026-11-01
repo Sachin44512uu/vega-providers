@@ -31,7 +31,7 @@ export const getSearchPosts = async function ({
   providerContext: ProviderContext;
   signal: AbortSignal;
 }): Promise<Post[]> {
-  const baseUrl = await getBaseUrl("filmyfly");
+  const baseUrl = await getBaseUrl("https://filmyfly.church/");
   const url = `${baseUrl}/site-1.html?to-search=${searchQuery}`;
   if (page > 1) {
     return [];
