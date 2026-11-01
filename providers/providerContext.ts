@@ -142,4 +142,14 @@ export const providerContext: ProviderContext = {
   Aes: null,
   commonHeaders: headers,
   cheerio,
+  openWebView: async () => {
+    throw new Error("openWebView is unavailable in the local test context");
+  },
+  kvStore: {
+    get: async <T>() => undefined as T | undefined,
+    set: async (_key: string, _value: unknown) => {},
+    delete: async (_key: string) => false,
+    keys: async () => [],
+    clear: async () => {},
+  },
 };
