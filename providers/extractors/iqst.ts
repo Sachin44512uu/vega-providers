@@ -101,7 +101,7 @@ function baseN(num: number, b: number): string {
 
 function unpackJs(source: string): string | null {
   const m = source.match(
-    /\}\s*\(\s*'(.*?)'\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*'(.*?)'\s*\.split\('\|'\)/s,
+    /\}\s*\(\s*'([\s\S]*?)'\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*'(.*?)'\s*\.split\('\|'\)/,
   );
   if (!m) return null;
 
