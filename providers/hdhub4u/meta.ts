@@ -29,7 +29,7 @@ function getEpisodeLinks($: any, container: any, seriesTitle: string, pageUrl: s
   let sectionQuality = "";
   // Follow DOM order instead of scanning every later sibling. Invalid/nested
   // headings otherwise cause one episode to claim the rest of the season.
-  container.find("h2,h3,h4,h5,h6,p,strong,a[href]").each((_, element) => {
+  container.find("h2,h3,h4,h5,h6,p,strong,a[href]").each((_index: number, element: any) => {
     const el = $(element);
     const own = el.clone();
     own.find("h1,h2,h3,h4,h5,h6,p,strong").remove();
