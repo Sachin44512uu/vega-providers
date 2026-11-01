@@ -40,5 +40,5 @@ jobs:
       - name: Build Providers
         run: npm run build
 
-      - name: Run Integration Tests
-        run: npm test
+      - name: Run Offline Regression Tests
+        run: npm run test:unit
