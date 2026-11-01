@@ -72,7 +72,7 @@ export async function zcloudExtractor(
           console.log(
             `zcloudExtractor: WAF detected (403) for ${link}, using solver...`,
           );
-          const cleanHeaders = { ...headers, Referer: baseUrl };
+          const cleanHeaders: Record<string, string> = { ...headers, Referer: baseUrl };
           delete cleanHeaders["User-Agent"];
           delete cleanHeaders["sec-ch-ua"];
           delete cleanHeaders["sec-ch-ua-mobile"];
@@ -129,7 +129,7 @@ export async function zcloudExtractor(
           `zcloudExtractor: WAF detected (403) for ${vcloudLink}, using solver...`,
         );
         const vcloudBaseUrl = vcloudLink.split("/").slice(0, 3).join("/");
-        const cleanHeaders2 = { ...headers, Referer: vcloudBaseUrl };
+        const cleanHeaders2: Record<string, string> = { ...headers, Referer: vcloudBaseUrl };
         delete cleanHeaders2["User-Agent"];
         delete cleanHeaders2["sec-ch-ua"];
         delete cleanHeaders2["sec-ch-ua-mobile"];
@@ -167,7 +167,7 @@ export async function zcloudExtractor(
             `zcloudExtractor: WAF detected (403) for ${vcloudLink}, using solver...`,
           );
           const vcloudBaseUrl = vcloudLink.split("/").slice(0, 3).join("/");
-          const cleanHeaders3 = { ...headers, Referer: vcloudBaseUrl };
+          const cleanHeaders3: Record<string, string> = { ...headers, Referer: vcloudBaseUrl };
           delete cleanHeaders3["User-Agent"];
           delete cleanHeaders3["sec-ch-ua"];
           delete cleanHeaders3["sec-ch-ua-mobile"];
