@@ -12,7 +12,7 @@ export const getMeta = async function ({
 }): Promise<Info> {
   try {
     const { axios, cheerio, commonHeaders: headers } = providerContext;
-    const baseUrl = await getBaseUrl("filmyfly");
+    const baseUrl = await getBaseUrl("https://filmyfly.church/");
     const url = new URL(link, `${baseUrl}/`).href;
     const res = await axios.get(url, { headers });
     const data = res.data;
