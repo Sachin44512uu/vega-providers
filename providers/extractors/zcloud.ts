@@ -53,15 +53,26 @@ export async function zcloudExtractor(
   providerContext?: any,
 ) {
   try {
-    if (!headers["Cookie"]) {
-      headers["Cookie"] =
-        "ext_name=ojplmecpdpgccookcobabopnaifgidhf; xla=s4t; cf_clearance=woQrFGXtLfmEMBEiGUsVHrUBMT8s3cmguIzmMjmvpkg-1770053679-1.2.1.1-xBrQdciOJsweUF6F2T_OtH6jmyanN_TduQ0yslc_XqjU6RcHSxI7.YOKv6ry7oYo64868HYoULnVyww536H2eVI3R2e4wKzsky6abjPdfQPxqpUaXjxfJ02o6jl3_Vkwr4uiaU7Wy596Vdst3y78HXvVmKdIohhtPvp.vZ9_L7wvWdce0GRixjh_6JiqWmWMws46hwEt3hboaS1e1e4EoWCvj5b0M_jVwvSxBOAW5emFzvT3QrnRh4nyYmKDERnY";
-    }
     console.log("zcloudExtractor", link);
     // console.log("headers", headers);
     const baseUrl = link.split("/").slice(0, 3).join("/");
     const streamLinks: any[] = [];
     const openWebView = providerContext?.openWebView;
+    // WebView and native HTTP can receive different WAF responses. Reuse a
+    // successfully loaded file page instead of immediately requesting it again.
+    const pageFromWebView = (result: any): string => {
+      const html = typeof result.data === "string" ? result.data : "";
+      if (/<title[^>]*>\s*(?:Just a moment|Attention Required)|Sorry, you have been blocked/i.test(html)) return "";
+      return html.trim() ? html : "";
+    };
+    const useWebViewSession = (result: any, requestHeaders: Record<string, string>) => {
+      // Retry the same explicit headers used to load the WebView, including
+      // Referer. Cookies and User-Agent come from that completed browser session.
+      for (const key of Object.keys(headers)) delete headers[key];
+      Object.assign(headers, requestHeaders);
+      if (result.userAgent) headers["User-Agent"] = result.userAgent;
+      if (result.cookies) headers["Cookie"] = result.cookies;
+    };
 
     let vLinkRes: any;
     try {
@@ -73,24 +84,20 @@ export async function zcloudExtractor(
             `zcloudExtractor: WAF detected (403) for ${link}, using solver...`,
           );
           const cleanHeaders = { ...headers, Referer: baseUrl };
-          delete cleanHeaders["User-Agent"];
-          delete cleanHeaders["sec-ch-ua"];
-          delete cleanHeaders["sec-ch-ua-mobile"];
-          delete cleanHeaders["sec-ch-ua-platform"];
-          delete cleanHeaders["Cookie"];
+          for (const key of Object.keys(cleanHeaders)) {
+            if (/^(cookie|user-agent|sec-ch-ua(?:-.*)?)$/i.test(key)) delete cleanHeaders[key];
+          }
 
-          const wafResult = await openWebView(baseUrl, {
-            title: "Solve the captcha below and click done",
-            description: "Required to bypass anti-bot protection.",
+          const wafResult = await openWebView(link, {
+            title: "Open download page",
+            description: "If the download page is visible, tap Done. Complete verification only if requested.",
             headers: cleanHeaders,
-            waitForCookie: "cf_clearance",
             force: true,
           });
-          if (wafResult.userAgent) headers["User-Agent"] = wafResult.userAgent;
-          headers["Cookie"] =
-            (headers["Cookie"] ? headers["Cookie"] + "; " : "") +
-            wafResult.cookies;
-          vLinkRes = await axios(`${link}`, { headers, signal });
+          useWebViewSession(wafResult, cleanHeaders);
+          vLinkRes = pageFromWebView(wafResult)
+            ? {data: pageFromWebView(wafResult)}
+            : await axios(`${link}`, { headers, signal });
         } else {
           console.log(
             `zcloudExtractor: 403 Forbidden for ${link}, but openWebView solver is not available!`,
@@ -121,7 +128,9 @@ export async function zcloudExtractor(
 
     let vcloudText = "";
     try {
-      const vcloudRes = await axios.get(vcloudLink, { headers, signal });
+      const vcloudRes = vcloudLink === link
+        ? vLinkRes
+        : await axios.get(vcloudLink, { headers, signal });
       vcloudText = vcloudRes.data;
     } catch (error: any) {
       if (error.response?.status === 403 && openWebView) {
@@ -130,24 +139,20 @@ export async function zcloudExtractor(
         );
         const vcloudBaseUrl = vcloudLink.split("/").slice(0, 3).join("/");
         const cleanHeaders2 = { ...headers, Referer: vcloudBaseUrl };
-        delete cleanHeaders2["User-Agent"];
-        delete cleanHeaders2["sec-ch-ua"];
-        delete cleanHeaders2["sec-ch-ua-mobile"];
-        delete cleanHeaders2["sec-ch-ua-platform"];
-        delete cleanHeaders2["Cookie"];
+        for (const key of Object.keys(cleanHeaders2)) {
+          if (/^(cookie|user-agent|sec-ch-ua(?:-.*)?)$/i.test(key)) delete cleanHeaders2[key];
+        }
 
-        const wafResult = await openWebView(vcloudBaseUrl, {
-          title: "Solve the captcha below and click done",
-          description: "Required to bypass anti-bot protection.",
+        const wafResult = await openWebView(vcloudLink, {
+          title: "Open download page",
+          description: "If the download page is visible, tap Done. Complete verification only if requested.",
           headers: cleanHeaders2,
-          waitForCookie: "cf_clearance",
           force: true,
         });
-        if (wafResult.userAgent) headers["User-Agent"] = wafResult.userAgent;
-        headers["Cookie"] =
-          (headers["Cookie"] ? headers["Cookie"] + "; " : "") +
-          wafResult.cookies;
-        const retryRes = await axios.get(vcloudLink, { headers, signal });
+        useWebViewSession(wafResult, cleanHeaders2);
+        const retryRes = pageFromWebView(wafResult)
+          ? {data: pageFromWebView(wafResult)}
+          : await axios.get(vcloudLink, { headers, signal });
         vcloudText = retryRes.data;
       } else {
         if (error.response?.status === 403 && !openWebView) {
@@ -168,24 +173,20 @@ export async function zcloudExtractor(
           );
           const vcloudBaseUrl = vcloudLink.split("/").slice(0, 3).join("/");
           const cleanHeaders3 = { ...headers, Referer: vcloudBaseUrl };
-          delete cleanHeaders3["User-Agent"];
-          delete cleanHeaders3["sec-ch-ua"];
-          delete cleanHeaders3["sec-ch-ua-mobile"];
-          delete cleanHeaders3["sec-ch-ua-platform"];
-          delete cleanHeaders3["Cookie"];
+          for (const key of Object.keys(cleanHeaders3)) {
+            if (/^(cookie|user-agent|sec-ch-ua(?:-.*)?)$/i.test(key)) delete cleanHeaders3[key];
+          }
 
-          const wafResult = await openWebView(vcloudBaseUrl, {
-            title: "Solve the captcha below and click done",
-            description: "Required to bypass anti-bot protection.",
+          const wafResult = await openWebView(vcloudLink, {
+            title: "Open download page",
+            description: "If the download page is visible, tap Done. Complete verification only if requested.",
             headers: cleanHeaders3,
-            waitForCookie: "cf_clearance",
             force: true,
           });
-          if (wafResult.userAgent) headers["User-Agent"] = wafResult.userAgent;
-          headers["Cookie"] =
-            (headers["Cookie"] ? headers["Cookie"] + "; " : "") +
-            wafResult.cookies;
-          fetchRes = await fetch(vcloudLink, {
+          useWebViewSession(wafResult, cleanHeaders3);
+          fetchRes = pageFromWebView(wafResult)
+            ? {ok: true, text: async () => pageFromWebView(wafResult)}
+            : await fetch(vcloudLink, {
             headers,
             signal,
             redirect: "follow",

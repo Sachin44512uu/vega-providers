@@ -58,7 +58,7 @@
     "version": "1.8",
     "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/world4u.png",
     "type": "global",
-    "disabled": false
+    "disabled": true
   },
   {
     "display_name": "KatMoviesHd",
@@ -72,7 +72,7 @@
   {
     "display_name": "MoviesMod",
     "value": "mod",
-    "version": "2.1",
+    "version": "2.14",
     "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/mod.png",
     "type": "global",
     "disabled": false
@@ -176,13 +176,13 @@
     "version": "2.35",
     "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/kmMovies.png",
     "type": "global",
-    "disabled": false,
+    "disabled": true,
     "hasSettings": true
   },
   {
     "display_name": "Zeefliz",
     "value": "zeefliz",
-    "version": "1.33",
+    "version": "1.37",
     "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/zeefliz.jpg",
     "type": "global",
     "disabled": false,
@@ -489,7 +489,7 @@
     "version": "1.01",
     "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/movielinkdb.png",
     "type": "india",
-    "disabled": false
+    "disabled": true
   },
   {
     "display_name": "MX Player",
@@ -558,6 +558,24 @@
     "value": "liveTgTv",
     "version": "1.6",
     "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/liveTgTv.jpg",
+    "type": "global",
+    "disabled": false,
+    "moduleVersionHeader": true
+  },
+  {
+    "display_name": "AniDream",
+    "value": "aniDream",
+    "version": "1.2",
+    "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/aniDream.png",
+    "type": "anime",
+    "disabled": false,
+    "moduleVersionHeader": true
+  },
+  {
+    "display_name": "ExtraFlix",
+    "value": "extraflix",
+    "version": "1.0",
+    "icon": "https://cdn.jsdelivr.net/gh/Zenda-Cross/vega-providers@main/assets/extraflix.png",
     "type": "global",
     "disabled": false,
     "moduleVersionHeader": true

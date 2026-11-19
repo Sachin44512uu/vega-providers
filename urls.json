@@ -1,11 +1,11 @@
 {
   "Moviesmod": {
     "name": "Moviesmod",
-    "url": "https://moviesmod.tw"
+    "url": "https://moviesmod.fi"
   },
   "Topmovies": {
     "name": "Topmovies",
-    "url": "https://moviesleech.club"
+    "url": "https://moviesleech.help"
   },
   "UhdMovies": {
     "name": "UhdMovies",
@@ -202,5 +202,13 @@
   "liveTgTv": {
     "name": "LiveTG TV",
     "url": "https://livetgtv.lovable.app"
+  },
+  "aniDream": {
+    "name": "AniDream",
+    "url": "https://anidream.to"
+  },
+  "ExtraFlix": {
+    "name": "ExtraFlix",
+    "url": "https://e14.extraflix.mobi"
   }
 }
